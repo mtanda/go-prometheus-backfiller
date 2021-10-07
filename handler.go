@@ -65,7 +65,7 @@ func NewPrometheusBackfillHandler(blockDuration, maxPerAppender, storeThreshold,
 func (bh *backfillHandler) RunJob() {
 	Notice("main", "Start parsing database")
 	bh.done.Store(0)
-	go bh.statusLoop()
+	//go bh.statusLoop()
 	bh.listenOnChannel()
 	bh.tmpWg.Wait()
 	Notice("main", "End of parsing")
