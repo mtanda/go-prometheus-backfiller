@@ -1,10 +1,11 @@
 package prometheus_backfill
 
 import (
-	io_prometheus_client "github.com/prometheus/client_model/go"
 	"reflect"
 	"strings"
 	"sync"
+
+	io_prometheus_client "github.com/prometheus/client_model/go"
 )
 
 // [CONCUR] Rows are parsed concurrently
@@ -121,7 +122,9 @@ func (bh *backfillHandler) makeMetric(st reflect.StructField, metricValue float6
 		metricHelp = nil
 	}
 	delete(metricLabels, "metric_type")
-	metricLabels["__name__"] = metricName
+	if _, ok = metricLabels["__name__"]; !ok {
+		metricLabels["__name__"] = metricName
+	}
 	metric.Label = bh.marshalLabelsMap(metricLabels)
 	metric.TimestampMs = ts
 	return
