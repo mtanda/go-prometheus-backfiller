@@ -75,7 +75,7 @@ func (bh *backfillHandler) toTsdb(m *io_prometheus_client.Metric, v *float64, la
 		// Putting first metric, the appender will set its lower bound timestamp
 		bh.minTime = *m.TimestampMs
 	}
-	if bh.minTime != math.MaxInt64 && !(bh.minTime <= *m.TimestampMs && *m.TimestampMs <= (bh.minTime+(bh.blockDuration*1000))) {
+	if bh.minTime != math.MaxInt64 && !(bh.minTime <= *m.TimestampMs && *m.TimestampMs <= (bh.minTime+bh.blockDuration)) {
 		// current time stamp is not in the appender allowed range. Creating a new block
 		Notice3("Not within the allowed time-interval range",
 			time.Unix(bh.minTime/1000, 0), "<=",
